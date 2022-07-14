@@ -40,10 +40,16 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
-window.onload = async () => { 
-  const data = await fetchProducts('computador');
+const createElementSection = async (item) => {
+  const items = document.querySelector('.items');
+  const data = await fetchProducts(item);
   data.results.forEach(({ id, title, thumbnail }) => {
-    const objVaz = { sku: id, name: title, image: thumbnail };
-    createProductItemElement(objVaz);
+    const object = { sku: id, name: title, image: thumbnail };
+    const product = createProductItemElement(object);
+    items.appendChild(product);
   });
+};
+
+window.onload = () => { 
+  createElementSection('computador');
 };

@@ -3,6 +3,11 @@ const { fetchItem } = require('../helpers/fetchItem');
 const item = require('../mocks/item');
 
 describe('2 - Teste a função fetchItem', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('fetchItem is a function', () => {
+    expect(typeof(fetchItem)).toEqual('function');
+  })
+  it('fetchItem is a called', () => {
+    fetchItem('MLB1615760527');
+    expect(fetch).toHaveBeenCalledTimes(1)
+  })
 });
