@@ -10,6 +10,11 @@ describe('1 - Teste a função fetchProducts', () => {
     fetchProducts('computador');
     expect(fetch).toHaveBeenCalledTimes(1)
   })
+  it('called endpoint', () => {
+    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador'
+    fetchProducts('computador')
+    expect(fetch).toHaveBeenCalledWith(endpoint);
+  })
   it('test data structure', async () => {
     expect(await fetchProducts('computador')).toEqual(computadorSearch)
   })

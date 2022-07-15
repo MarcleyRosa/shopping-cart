@@ -10,4 +10,11 @@ describe('2 - Teste a função fetchItem', () => {
     fetchItem('MLB1615760527');
     expect(fetch).toHaveBeenCalledTimes(1)
   })
+  it('test data structure', async () => {
+    expect(await fetchItem('MLB1615760527')).toEqual(item)
+  })
+  it('no param fetchItem', async () => {
+    const fetchFail = await fetchItem();
+    expect(fetchFail).toEqual(new Error('You must provide an url'));
+  })
 });
