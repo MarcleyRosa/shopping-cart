@@ -41,12 +41,13 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', () => {
     const lis = document.querySelector('.cart__item');
+    const subtrair = Number(lis.innerHTML.split('$')[1]);
     lis.remove();
-    totalPrice -= salePrice;
-    priceInner.innerText = totalPrice.toFixed(2);
+    totalPrice -= subtrair;
+    priceInner.innerText = Math.abs(totalPrice.toFixed(2));
   });
   totalPrice += salePrice; 
-  priceInner.innerText = totalPrice.toFixed(2);
+  priceInner.innerText = Math.abs(totalPrice.toFixed(2));
   return li;
 };
 
@@ -98,17 +99,16 @@ window.onload = () => {
 };
 
 // const round = (num, places) => {
-// if (!("" + num).includes("e")) {
+// if (!(` ${num}`).includes('e')) {
 // return +(Math.round(num + "e+" + places)  + "e-" + places);
 // } else {
-// let arr = ("" + num).split("e");
-// let sig = ""
+// const arr = (` ${num}`).split('e');
+// let sig = '';
 // if (+arr[1] + places > 0) {
-// sig = "+";
-// }
-
-//    return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + places)) + "e-" + places);
-// }
+// sig = '+';
+// };
+//  return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + places)) + "e-" + places);
+// };
 // };
 
 // console.log(round(10.51824, 2));
