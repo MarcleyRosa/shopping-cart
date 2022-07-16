@@ -39,15 +39,15 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   const priceInner = document.querySelector('.total-price');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', () => {
+  li.addEventListener('click', async () => {
     const lis = document.querySelector('.cart__item');
     const subtrair = Number(lis.innerHTML.split('$')[1]);
     lis.remove();
     totalPrice -= subtrair;
-    priceInner.innerText = Math.abs(totalPrice.toFixed(2));
+    priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
   });
   totalPrice += salePrice; 
-  priceInner.innerText = Math.abs(totalPrice.toFixed(2));
+  priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
   return li;
 };
 
@@ -82,7 +82,6 @@ const buttonClear = () => {
     }
   });
 };
-buttonClear();
 const adcItens = () => {
   const cartItems = document.querySelector('.items');
   cartItems.addEventListener('click', (e) => {
@@ -91,6 +90,7 @@ const adcItens = () => {
     }
   });
 };
+buttonClear();
 
 window.onload = () => { 
   createElementSection('computador');
@@ -100,15 +100,22 @@ window.onload = () => {
 
 // const round = (num, places) => {
 // if (!(` ${num}`).includes('e')) {
-// return +(Math.round(num + "e+" + places)  + "e-" + places);
-// } else {
+// // return +(Math.round(num + 'e+' + places) + 'e-' + places);
+// const mathRound = (`${num} e+ ${places}`);
+// const tes = `e- ${places}`;
+// console.log(tes);
+// console.log(mathRound);
+// // return +(`${Math.round(mathRound)} e- ${places}`);
+// }
+// if ((` ${num}`).includes('e')) {
 // const arr = (` ${num}`).split('e');
 // let sig = '';
 // if (+arr[1] + places > 0) {
 // sig = '+';
-// };
-//  return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + places)) + "e-" + places);
-// };
+// }
+//  // return +(Math.round(+arr[0] + 'e' + sig + (+arr[1] + places)) + 'e-' + places);
+//  return +(Math.round(`${+arr[0]} e ${sig} ${(+arr[1] + places)}`)`e- ${places}`);
+// }
 // };
 
 // console.log(round(10.51824, 2));
