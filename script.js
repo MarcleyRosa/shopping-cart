@@ -29,16 +29,24 @@ const createProductItemElement = ({ sku, name, image }) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = async () => {
-  const li = document.querySelector('.cart__item');
-  li.remove();
+let totalPrice = 0;
+const cartItemClickListener = () => {
+  // const li = document.querySelector('.cart__item');
+  // li.remove();
 };
-
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
+  const priceInner = document.querySelector('.total-price');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => {
+    const lis = document.querySelector('.cart__item');
+    lis.remove();
+    totalPrice -= salePrice;
+    priceInner.innerText = totalPrice.toFixed(2);
+  });
+  totalPrice += salePrice; 
+  priceInner.innerText = totalPrice.toFixed(2);
   return li;
 };
 
@@ -61,7 +69,19 @@ const cartElementCreate = async ({ target }) => {
   const product = createCartItemElement(object);
   cart.appendChild(product);
 };
-
+const buttonClear = () => {
+  const priceInner = document.querySelector('.total-price');
+  const button = document.querySelector('.empty-cart');
+  const ol = document.querySelector('.cart__items');
+  button.addEventListener('click', () => {
+    totalPrice = 0;
+    priceInner.innerText = totalPrice.toFixed(2);
+    while (ol.firstChild) {
+     ol.removeChild(ol.firstChild);
+    }
+  });
+};
+buttonClear();
 const adcItens = () => {
   const cartItems = document.querySelector('.items');
   cartItems.addEventListener('click', (e) => {
@@ -76,3 +96,21 @@ window.onload = () => {
   cartElementCreate();
   adcItens();
 };
+
+// const round = (num, places) => {
+// if (!("" + num).includes("e")) {
+// return +(Math.round(num + "e+" + places)  + "e-" + places);
+// } else {
+// let arr = ("" + num).split("e");
+// let sig = ""
+// if (+arr[1] + places > 0) {
+// sig = "+";
+// }
+
+//    return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + places)) + "e-" + places);
+// }
+// };
+
+// console.log(round(10.51824, 2));
+
+// console.log(round(1.005, 2)); // 1.01
