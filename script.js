@@ -39,10 +39,9 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   const priceInner = document.querySelector('.total-price');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', async () => {
-    const lis = document.querySelector('.cart__item');
-    const subtrair = Number(lis.innerHTML.split('$')[1]);
-    lis.remove();
+  li.addEventListener('click', (e) => {
+    const subtrair = Number(e.target.innerHTML.split('$')[1]);
+    e.target.remove();
     totalPrice -= subtrair;
     priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
   });
