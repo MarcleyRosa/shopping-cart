@@ -91,10 +91,12 @@ const adcItens = () => {
 };
 buttonClear();
 
-window.onload = () => { 
-  createElementSection('computador');
+window.onload = async () => { 
+  await createElementSection('computador');
   cartElementCreate();
   adcItens();
+  const load = document.querySelector('.loading');
+  load.remove();
 };
 
 // const round = (num, places) => {

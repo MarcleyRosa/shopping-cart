@@ -4,7 +4,7 @@ const saveCartItems = require('../helpers/saveCartItems');
 localStorageSimulator('setItem');
 
 describe('3 - Teste a função saveCartItems', () => {
-  it('saveCartItens called localStorage', () => {
+  it('saveCartItens called localStorage.setItem', () => {
     saveCartItems('<ol><li>Item</li></ol>')
     expect(localStorage.setItem).toHaveBeenCalledTimes(1)
   })
