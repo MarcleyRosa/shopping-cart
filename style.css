@@ -152,10 +152,5 @@ body {
   border-radius: 5px;
   background-color: aquamarine;
   border: 2px black solid;
-  font-variant:small-caps
-}
-
-.item {
-  border-radius: 5px;
-  border: 1px black solid;
+  font-variant: small-caps;
 }
