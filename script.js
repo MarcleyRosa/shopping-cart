@@ -1,6 +1,3 @@
-// const { fetchProducts } = require("./helpers/fetchProducts");
-// const { fetchItem } = require("./helpers/fetchItem");
-
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -27,26 +24,30 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 let totalPrice = 0;
-const cartItemClickListener = () => {
-  // const li = document.querySelector('.cart__item');
-  // li.remove();
+
+const priceInner = document.querySelector('.total-price');
+const cart = document.querySelector('.cart__items');
+
+const cartAdcPrice = (salePrice) => {
+  totalPrice += salePrice; 
+  priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
 };
+
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
-  const priceInner = document.querySelector('.total-price');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', (e) => {
+  li.innerHTML = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', async (e) => {
     const subtrair = Number(e.target.innerHTML.split('$')[1]);
     e.target.remove();
+    saveCartItems(cart.innerHTML);
     totalPrice -= subtrair;
     priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
   });
-  totalPrice += salePrice; 
-  priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
+  cartAdcPrice(salePrice);
   return li;
 };
 
@@ -61,7 +62,6 @@ const createElementSection = async (item) => {
 };
 
 const cartElementCreate = async ({ target }) => {
-  const cart = document.querySelector('.cart__items');
   const firstParent = target.parentElement;
   const childParent = firstParent.firstChild.innerText; 
   const { id, title, price } = await fetchItem(childParent);
@@ -70,55 +70,45 @@ const cartElementCreate = async ({ target }) => {
   cart.appendChild(product);
 };
 const buttonClear = () => {
-  const priceInner = document.querySelector('.total-price');
   const button = document.querySelector('.empty-cart');
   const ol = document.querySelector('.cart__items');
   button.addEventListener('click', () => {
     totalPrice = 0;
-    priceInner.innerText = totalPrice.toFixed(2);
+    saveCartItems(cart.innerHTML);
+    priceInner.innerText = Math.round(Math.abs(totalPrice) * 100) / 100;
     while (ol.firstChild) {
      ol.removeChild(ol.firstChild);
     }
   });
 };
+
 const adcItens = () => {
   const cartItems = document.querySelector('.items');
-  cartItems.addEventListener('click', (e) => {
+  cartItems.addEventListener('click', async (e) => {
     if (e.target.className === 'item__add') {
-      cartElementCreate(e);
+      await cartElementCreate(e);
+      console.log(cart.innerHTML);
+      // console.log(typeof JSON.parse(cart.innerHTML));
+      saveCartItems(cart.innerHTML);
     }
   });
 };
+
+const reloadCart = () => {
+  const saveCart = getSavedCartItems();
+  console.log(saveCart);
+  cart.innerHTML = saveCart;
+  cart.addEventListener('click', (e) => {
+    e.target.remove(cart);
+  });
+};
+
 buttonClear();
 
 window.onload = async () => { 
   await createElementSection('computador');
-  cartElementCreate();
   adcItens();
   const load = document.querySelector('.loading');
   load.remove();
+  reloadCart();
 };
-
-// const round = (num, places) => {
-// if (!(` ${num}`).includes('e')) {
-// // return +(Math.round(num + 'e+' + places) + 'e-' + places);
-// const mathRound = (`${num} e+ ${places}`);
-// const tes = `e- ${places}`;
-// console.log(tes);
-// console.log(mathRound);
-// // return +(`${Math.round(mathRound)} e- ${places}`);
-// }
-// if ((` ${num}`).includes('e')) {
-// const arr = (` ${num}`).split('e');
-// let sig = '';
-// if (+arr[1] + places > 0) {
-// sig = '+';
-// }
-//  // return +(Math.round(+arr[0] + 'e' + sig + (+arr[1] + places)) + 'e-' + places);
-//  return +(Math.round(`${+arr[0]} e ${sig} ${(+arr[1] + places)}`)`e- ${places}`);
-// }
-// };
-
-// console.log(round(10.51824, 2));
-
-// console.log(round(1.005, 2)); // 1.01

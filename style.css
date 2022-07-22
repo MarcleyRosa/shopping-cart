@@ -147,3 +147,15 @@ body {
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
 }
+
+.cart__item {
+  border-radius: 5px;
+  background-color: aquamarine;
+  border: 2px black solid;
+  font-variant:small-caps
+}
+
+.item {
+  border-radius: 5px;
+  border: 1px black solid;
+}
